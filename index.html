@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Excel作業AI｜毎月同じExcel作業を自動化</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+        "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+      color: #172033;
+      background: #f7f9fc;
+      line-height: 1.7;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #071a3d, #1268d6);
+      color: white;
+      padding: 90px 20px 80px;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 7px 15px;
+      margin-bottom: 22px;
+      border: 1px solid rgba(255,255,255,.35);
+      border-radius: 999px;
+      background: rgba(255,255,255,.12);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .hero h1 {
+      max-width: 900px;
+      margin: 0 auto 22px;
+      font-size: clamp(34px, 6vw, 62px);
+      line-height: 1.2;
+      letter-spacing: -0.03em;
+    }
+
+    .hero p {
+      max-width: 720px;
+      margin: 0 auto 34px;
+      font-size: 18px;
+      color: #e7efff;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 16px 28px;
+      border-radius: 10px;
+      background: white;
+      color: #0b57bd;
+      text-decoration: none;
+      font-weight: 800;
+      box-shadow: 0 8px 25px rgba(0,0,0,.15);
+    }
+
+    .note {
+      margin-top: 14px;
+      font-size: 13px;
+      color: #d7e5ff;
+    }
+
+    section {
+      padding: 75px 20px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    h2 {
+      margin: 0 0 16px;
+      text-align: center;
+      font-size: 34px;
+      line-height: 1.35;
+    }
+
+    .lead {
+      max-width: 720px;
+      margin: 0 auto 45px;
+      text-align: center;
+      color: #5d6678;
+    }
+
+    .problems,
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      padding: 28px;
+      border-radius: 16px;
+      background: white;
+      box-shadow: 0 5px 25px rgba(23,32,51,.07);
+    }
+
+    .card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 19px;
+    }
+
+    .step-number {
+      width: 42px;
+      height: 42px;
+      margin-bottom: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #1268d6;
+      color: white;
+      font-weight: 800;
+    }
+
+    .example {
+      background: #edf4ff;
+    }
+
+    .flow {
+      max-width: 720px;
+      margin: auto;
+      padding: 32px;
+      border-radius: 16px;
+      background: white;
+      font-size: 17px;
+      box-shadow: 0 5px 25px rgba(23,32,51,.06);
+    }
+
+    .flow div {
+      padding: 11px 0;
+      border-bottom: 1px solid #e7ebf1;
+    }
+
+    .flow div:last-child {
+      border-bottom: 0;
+    }
+
+    .check {
+      color: #087a47;
+      font-weight: 800;
+    }
+
+    .warning {
+      color: #b05b00;
+      font-weight: 800;
+    }
+
+    .bottom {
+      padding: 80px 20px;
+      background: #071a3d;
+      color: white;
+      text-align: center;
+    }
+
+    .bottom p {
+      max-width: 650px;
+      margin: 15px auto 30px;
+      color: #d8e4f8;
+    }
+
+    footer {
+      padding: 25px;
+      text-align: center;
+      font-size: 13px;
+      color: #7b8494;
+    }
+
+    @media (max-width: 750px) {
+      .problems,
+      .steps {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 65px;
+      }
+
+      section {
+        padding: 55px 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="hero">
+    <div class="badge">無料β版 開発準備中</div>
+
+    <h1>
+      毎月同じExcel作業、<br>
+      AIに一度見せるだけ。
+    </h1>
+
+    <p>
+      加工前のExcelと、あなたが完成させたExcelを見せると、
+      AIが作業内容を読み取り、次回から同じ処理を自動で再現。
+      マクロ・関数・Power Queryの知識は必要ありません。
+    </p>
+
+    <a class="button" href="#beta">
+      無料β版に興味がある
+    </a>
+
+    <div class="note">
+      ※現在は需要検証・開発準備段階です
+    </div>
+  </div>
+
+
+  <section>
+    <div class="container">
+
+      <h2>こんな作業、毎月やっていませんか？</h2>
+
+      <p class="lead">
+        数分の作業でも、毎週・毎月繰り返せば大きな時間になります。
+      </p>
+
+      <div class="problems">
+
+        <div class="card">
+          <strong>CSVの列を毎回並べ替える</strong>
+          不要な列を削除して、決まった順番へ並べ替える。
+        </div>
+
+        <div class="card">
+          <strong>別のExcelから情報を追加</strong>
+          商品コードや顧客情報を検索して、毎回データを付け足す。
+        </div>
+
+        <div class="card">
+          <strong>決まった形式へ加工する</strong>
+          日付や文字列を修正して、別システムへ取り込める形にする。
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <section class="example">
+    <div class="container">
+
+      <h2>作業を「説明」する必要もありません</h2>
+
+      <p class="lead">
+        目指しているのは、あなたが実際に行った作業から
+        AIが処理ルールを読み取る仕組みです。
+      </p>
+
+      <div class="steps">
+
+        <div class="card">
+          <div class="step-number">1</div>
+          <strong>加工前ファイルを入れる</strong>
+          いつも作業を始めるExcel・CSVをアップロード。
+        </div>
+
+        <div class="card">
+          <div class="step-number">2</div>
+          <strong>完成ファイルを見せる</strong>
+          あなたがいつも通り完成させたファイルをアップロード。
+        </div>
+
+        <div class="card">
+          <div class="step-number">3</div>
+          <strong>次回から自動処理</strong>
+          AIが推測した作業ルールを確認し、次回から同じ処理を再現。
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <section>
+    <div class="container">
+
+      <h2>人間が見るのは「例外」だけ</h2>
+
+      <p class="lead">
+        すべてをAI任せにするのではなく、
+        判断できないデータだけ確認できる仕組みを想定しています。
+      </p>
+
+      <div class="flow">
+        <div class="check">✓ 1,247件を自動処理しました</div>
+        <div class="check">✓ 既存ルールと一致：1,243件</div>
+        <div class="warning">⚠ 要確認：4件</div>
+        <div>→ あなたは4件だけ確認</div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <div class="bottom" id="beta">
+
+    <h2>無料β版の先行利用者を募集予定です</h2>
+
+    <p>
+      現在、実際にExcel・CSVを使って仕事をしている方の
+      「毎週・毎月繰り返している作業」を調査しています。
+      回答をもとに、最初に自動化する機能を決めます。
+    </p>
+
+    <a class="button" href="#">
+      無料β版に興味がある
+    </a>
+
+    <div class="note">
+      ※まだ製品は完成していません。登録後に自動課金されることはありません。
+    </div>
+
+  </div>
+
+
+  <footer>
+    Excel作業AI（仮）｜無料β版 需要検証ページ
+  </footer>
+
+</body>
+</html>
